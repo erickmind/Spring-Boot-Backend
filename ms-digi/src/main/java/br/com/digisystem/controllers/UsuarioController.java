@@ -3,6 +3,8 @@ package br.com.digisystem.controllers;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -39,7 +41,7 @@ public class UsuarioController {
 	}
 	
 	@PostMapping("usuarios")
-	public ResponseEntity<UsuarioDTO> create(@RequestBody UsuarioDTO dto) {
+	public ResponseEntity<UsuarioDTO> create(@Valid @RequestBody UsuarioDTO dto) {
 		
 		UsuarioEntity usuario = dto.toEntity();
 		UsuarioEntity usuarioResponse = this.usuarioService.create(usuario);

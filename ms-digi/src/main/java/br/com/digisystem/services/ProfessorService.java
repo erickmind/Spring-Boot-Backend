@@ -1,12 +1,10 @@
 package br.com.digisystem.services;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.digisystem.dtos.ProfessorDTO;
 import br.com.digisystem.entities.ProfessorEntity;
 import br.com.digisystem.repositories.ProfessorRepository;
 
