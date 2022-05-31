@@ -6,34 +6,29 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.digisystem.entities.UsuarioEntity;
-import br.com.digisystem.repositories.UsuarioRepository;
+import br.com.digisystem.entities.UserEntity;
+import br.com.digisystem.exceptions.ObjNotFoundException;
+import br.com.digisystem.repositories.UserRepository;
 
 @Service
-public class UsuarioService {
+public class UserService {
 	
 	@Autowired
-	private UsuarioRepository usuarioRepository;
+	private UserRepository usuarioRepository;
 	
-	public List<UsuarioEntity> findAll() {
+	public List<UserEntity> findAll() {
 		
 		return this.usuarioRepository.findAll();
 	}
 	
-	public UsuarioEntity find(int id) {
+	public UserEntity findOne(int id) {
 		
-		Optional<UsuarioEntity> optional = this.usuarioRepository.findById(id);
-		
-		if(optional.isPresent()) {
-			return optional.get();
-		}else {
-			return null;
-		}
+		return this.usuarioRepository.findById(id).orElseThrow( () -> new ObjNotFoundException("Element with ID " + id + " not found") );
 	}
 	
-	public UsuarioEntity create(UsuarioEntity usuario) {
+	public UserEntity create(UserEntity usuario) {
 		
-		UsuarioEntity newUser = new UsuarioEntity();
+		UserEntity newUser = new UserEntity();
 		if (usuario.getNome() == null || usuario.getEmail() == null){
 			return null;
 		}
@@ -44,11 +39,11 @@ public class UsuarioService {
 		return this.usuarioRepository.save(newUser);
 	}
 	
-	public UsuarioEntity update(int id, UsuarioEntity usuario) {
+	public UserEntity update(int id, UserEntity usuario) {
 		
-		Optional<UsuarioEntity> user = usuarioRepository.findById(id);
+		Optional<UserEntity> user = usuarioRepository.findById(id);
 		if(user.isPresent()){
-			UsuarioEntity usuarioUpdate = user.get();
+			UserEntity usuarioUpdate = user.get();
 			
 			usuarioUpdate.setEmail(usuario.getEmail());
 			usuarioUpdate.setNome(usuario.getNome());
@@ -63,7 +58,7 @@ public class UsuarioService {
 		this.usuarioRepository.deleteById(id);
 	}
 	
-	public List<UsuarioEntity> getByNome(String nome){
+	public List<UserEntity> getByNome(String nome){
 		return this.usuarioRepository.searchByNome(nome);
 	}
 }

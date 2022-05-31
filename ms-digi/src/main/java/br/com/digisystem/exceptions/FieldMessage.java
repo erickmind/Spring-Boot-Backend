@@ -7,11 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class StandardError {
+public class FieldMessage {
 	
-	protected Long timestamp;
-	protected Integer status;
-	protected String error;
-	protected String message;
-	protected String path;
-} 
+	private String fieldName;
+	private String message;	
+}

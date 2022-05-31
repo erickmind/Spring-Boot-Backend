@@ -2,7 +2,6 @@ package br.com.digisystem.controllers;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,13 +16,13 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import br.com.digisystem.dtos.UsuarioDTO;
+import br.com.digisystem.dtos.ProfessorDTO;
 
 @ExtendWith(SpringExtension.class)
 @AutoConfigureMockMvc
 @SpringBootTest
-public class UsuarioControllerTests {
-	
+public class ProfessorControllerTests {
+
 	@Autowired
 	private MockMvc mockMvc;
 	
@@ -33,13 +32,13 @@ public class UsuarioControllerTests {
 	void getAllTest() throws Exception{
 		
 		ResultActions response = mockMvc.perform(
-				get("/usuarios")
+				get("/professores")
 				.contentType("application/json"));
 		
 		MvcResult result = response.andReturn();
 		String resultStr = result.getResponse().getContentAsString();
 		
-		UsuarioDTO[] list = mapper.readValue(resultStr, UsuarioDTO[].class);
+		ProfessorDTO[] list = mapper.readValue(resultStr, ProfessorDTO[].class);
 		
 		assertThat(list).isNotEmpty();
 		assertThat(result.getResponse().getStatus()).isEqualTo(HttpStatus.OK.value());
@@ -51,36 +50,14 @@ public class UsuarioControllerTests {
 		int id = 1;
 		
 		ResultActions response = mockMvc.perform(
-				get("/usuarios/" + id)
-				.content("application/json"));
+				get("/professores/" + id)
+				.contentType("application/json"));
 		
 		MvcResult result = response.andReturn();
 		String resultStr = result.getResponse().getContentAsString();
 		
-		UsuarioDTO user = mapper.readValue(resultStr, UsuarioDTO.class);
+		ProfessorDTO prof = mapper.readValue(resultStr, ProfessorDTO.class);
 		
-		assertThat(user.getId()).isEqualTo(id);		
-		
-	}
-	
-	@Test
-	void createTest() throws Exception{
-		
-		UsuarioDTO user = new UsuarioDTO();
-		
-		user.setNome("João");
-		user.setEmail("jaozinho@digisystem.com");
-		
-		ResultActions response = mockMvc.perform(
-				post("/usuarios")
-				.contentType("application/json")
-				.content(mapper.writeValueAsString(user)));
-		
-		MvcResult result = response.andReturn();
-		String resultStr = result.getResponse().getContentAsString();
-		UsuarioDTO userSaved = mapper.readValue(resultStr, UsuarioDTO.class);
-		
-		assertThat(userSaved.getId()).isPositive();
-		assertThat(result.getResponse().getStatus()).isEqualTo(HttpStatus.OK.value());
+		assertThat(prof.getId()).isEqualTo(id);
 	}
 }

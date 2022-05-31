@@ -15,45 +15,45 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.digisystem.dtos.UsuarioDTO;
-import br.com.digisystem.entities.UsuarioEntity;
-import br.com.digisystem.services.UsuarioService;
+import br.com.digisystem.dtos.UserDTO;
+import br.com.digisystem.entities.UserEntity;
+import br.com.digisystem.services.UserService;
 
 @RestController
-public class UsuarioController {
+public class UserController {
 	
 	@Autowired
-	private UsuarioService usuarioService;
+	private UserService usuarioService;
 	
 	@GetMapping("usuarios")
-	public ResponseEntity<List<UsuarioDTO>> getAll() {
+	public ResponseEntity<List<UserDTO>> getAll() {
 		
-		List<UsuarioEntity> usuarioList = this.usuarioService.findAll();
-		List<UsuarioDTO> dtoList = usuarioList.stream().map(x -> x.toDTO()).collect(Collectors.toList());
+		List<UserEntity> usuarioList = this.usuarioService.findAll();
+		List<UserDTO> dtoList = usuarioList.stream().map(x -> x.toDTO()).collect(Collectors.toList());
 		
 		return ResponseEntity.ok().body(dtoList);
 	}
 	
 	@GetMapping("usuarios/{id}")
-	public ResponseEntity<UsuarioDTO> get(@PathVariable int id) {
+	public ResponseEntity<UserDTO> get(@PathVariable int id) {
 		
-		return ResponseEntity.ok().body(usuarioService.find(id).toDTO());
+		return ResponseEntity.ok().body(usuarioService.findOne(id).toDTO());
 	}
 	
 	@PostMapping("usuarios")
-	public ResponseEntity<UsuarioDTO> create(@Valid @RequestBody UsuarioDTO dto) {
+	public ResponseEntity<UserDTO> create(@Valid @RequestBody UserDTO dto) {
 		
-		UsuarioEntity usuario = dto.toEntity();
-		UsuarioEntity usuarioResponse = this.usuarioService.create(usuario);
+		UserEntity usuario = dto.toEntity();
+		UserEntity usuarioResponse = this.usuarioService.create(usuario);
 		
 		return ResponseEntity.ok().body(usuarioResponse.toDTO());
 	}
 	
 	@PatchMapping("usuarios/{id}")
-	public ResponseEntity<UsuarioDTO> update(@PathVariable int id, @RequestBody UsuarioDTO dto) {
+	public ResponseEntity<UserDTO> update(@PathVariable int id, @RequestBody UserDTO dto) {
 		
-		UsuarioEntity usuario = dto.toEntity();
-		UsuarioEntity usuarioResponse = this.usuarioService.update(id, usuario);
+		UserEntity usuario = dto.toEntity();
+		UserEntity usuarioResponse = this.usuarioService.update(id, usuario);
 		
 		return ResponseEntity.ok().body(usuarioResponse.toDTO());
 	}
@@ -67,10 +67,10 @@ public class UsuarioController {
 	}
 	
 	@GetMapping("usuarios/get-by-nome/{nome}")
-	public ResponseEntity<List<UsuarioDTO>> getByNome(@PathVariable String nome){
+	public ResponseEntity<List<UserDTO>> getByNome(@PathVariable String nome){
 		
-		List<UsuarioEntity> usuarioList = this.usuarioService.getByNome(nome);
-		List<UsuarioDTO> usuarioListDTO = usuarioList.stream().map(x -> x.toDTO()).collect(Collectors.toList());
+		List<UserEntity> usuarioList = this.usuarioService.getByNome(nome);
+		List<UserDTO> usuarioListDTO = usuarioList.stream().map(x -> x.toDTO()).collect(Collectors.toList());
 		
 		return ResponseEntity.ok().body(usuarioListDTO);
 	}

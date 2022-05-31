@@ -1,15 +1,12 @@
 package br.com.digisystem.entities;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.modelmapper.ModelMapper;
-
-import br.com.digisystem.dtos.UsuarioDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,20 +15,19 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="usuarios")
-public class UsuarioEntity {
-	
+@Table(name="address")
+public class AddressEntity {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	@Column(name="nome")
-	private String nome;
-	private String email;
+	private String Street;
+	private String number;
+	private String cep;
+	private String complement;
+	private String district;
+	private String fu;
 	
-	public UsuarioDTO toDTO() {
-		
-		ModelMapper mapper = new ModelMapper();
-		
-		return mapper.map(this, UsuarioDTO.class);
-	}
+	@OneToOne(mappedBy = "address")
+	private UserEntity user;
 }
