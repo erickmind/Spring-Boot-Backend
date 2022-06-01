@@ -1,5 +1,7 @@
 package br.com.digisystem.dtos;
 
+import java.util.List;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
@@ -24,6 +26,7 @@ public class UserDTO {
 	private String name;
 	private String email;
 	private AddressDTO address;
+	private List<SalesDTO> sales;
 	
 	public UserEntity toEntity() {
 		

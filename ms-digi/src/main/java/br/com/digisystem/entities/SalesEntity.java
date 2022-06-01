@@ -1,20 +1,17 @@
 package br.com.digisystem.entities;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.modelmapper.ModelMapper;
 
-import br.com.digisystem.dtos.UserDTO;
+import br.com.digisystem.dtos.SalesDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,27 +20,22 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="users")
-public class UserEntity {
+@Table(name="sales")
+public class SalesEntity {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
-	@Column(name="name")
-	private String name;
-	private String email;
+	@Column(name="total_value")
+	private double totalValue;
 	
-	@OneToOne
-	@JoinColumn(name="address_id")
-	private AddressEntity address;
+	@ManyToOne
+	@JoinColumn(name="user_id")
+	private UserEntity user;
 	
-	@OneToMany(mappedBy = "user")
-	private List<SalesEntity> sales;
-	
-	public UserDTO toDTO() {
-		
+	public SalesDTO toDTO() {
 		ModelMapper mapper = new ModelMapper();
 		
-		return mapper.map(this, UserDTO.class);
+		return mapper.map(this, SalesDTO.class);
 	}
 }
