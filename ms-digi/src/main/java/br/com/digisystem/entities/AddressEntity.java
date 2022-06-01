@@ -7,6 +7,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.modelmapper.ModelMapper;
+
+import br.com.digisystem.dtos.AddressDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,4 +33,11 @@ public class AddressEntity {
 	
 	@OneToOne(mappedBy = "address")
 	private UserEntity user;
+	
+	public AddressDTO toDTO() {
+		
+		ModelMapper mapper = new ModelMapper();
+		
+		return mapper.map(this, AddressDTO.class);
+	}
 }

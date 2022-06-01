@@ -20,14 +20,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="usuarios")
+@Table(name="users")
 public class UserEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	@Column(name="nome")
-	private String nome;
+	@Column(name="name")
+	private String name;
 	private String email;
 	
 	@OneToOne

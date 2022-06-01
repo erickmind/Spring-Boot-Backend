@@ -14,51 +14,51 @@ import br.com.digisystem.repositories.UserRepository;
 public class UserService {
 	
 	@Autowired
-	private UserRepository usuarioRepository;
+	private UserRepository userRepository;
 	
 	public List<UserEntity> findAll() {
 		
-		return this.usuarioRepository.findAll();
+		return this.userRepository.findAll();
 	}
 	
 	public UserEntity findOne(int id) {
 		
-		return this.usuarioRepository.findById(id).orElseThrow( () -> new ObjNotFoundException("Element with ID " + id + " not found") );
+		return this.userRepository.findById(id).orElseThrow( () -> new ObjNotFoundException("Element with ID " + id + " not found") );
 	}
 	
-	public UserEntity create(UserEntity usuario) {
+	public UserEntity create(UserEntity user) {
 		
 		UserEntity newUser = new UserEntity();
-		if (usuario.getNome() == null || usuario.getEmail() == null){
+		if (user.getName() == null || user.getEmail() == null){
 			return null;
 		}
 		
-		newUser.setEmail(usuario.getEmail());
-		newUser.setNome(usuario.getNome());
+		newUser.setEmail(user.getEmail());
+		newUser.setName(user.getName());
 		
-		return this.usuarioRepository.save(newUser);
+		return this.userRepository.save(newUser);
 	}
 	
-	public UserEntity update(int id, UserEntity usuario) {
+	public UserEntity update(int id, UserEntity user) {
 		
-		Optional<UserEntity> user = usuarioRepository.findById(id);
-		if(user.isPresent()){
-			UserEntity usuarioUpdate = user.get();
+		Optional<UserEntity> userReturn = userRepository.findById(id);
+		if(userReturn.isPresent()){
+			UserEntity userUpdate = userReturn.get();
 			
-			usuarioUpdate.setEmail(usuario.getEmail());
-			usuarioUpdate.setNome(usuario.getNome());
+			userUpdate.setEmail(user.getEmail());
+			userUpdate.setName(user.getName());
 			
-			return this.usuarioRepository.save(usuarioUpdate);
+			return this.userRepository.save(userUpdate);
 		}else {
 			return null;
 		}
 	}
 	
 	public void delete(int id) {
-		this.usuarioRepository.deleteById(id);
+		this.userRepository.deleteById(id);
 	}
 	
-	public List<UserEntity> getByNome(String nome){
-		return this.usuarioRepository.searchByNome(nome);
+	public List<UserEntity> getByName(String name){
+		return this.userRepository.searchByName(name);
 	}
 }

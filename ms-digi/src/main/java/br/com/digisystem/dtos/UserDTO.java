@@ -21,8 +21,9 @@ public class UserDTO {
 	@NotEmpty(message="The field name is Required")
 	@NotBlank(message="The field name cannot be empty")
 	@Length(min=3, message="The field name must have at least 3 characters")
-	private String nome;
+	private String name;
 	private String email;
+	private AddressDTO address;
 	
 	public UserEntity toEntity() {
 		

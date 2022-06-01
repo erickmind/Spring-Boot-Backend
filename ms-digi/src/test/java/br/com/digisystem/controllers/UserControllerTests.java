@@ -40,7 +40,7 @@ public class UserControllerTests {
 	void findAllTest() throws Exception{
 		
 		ResultActions response = mockMvc.perform(
-				get("/usuarios")
+				get("/users")
 				.contentType("application/json"));
 		
 		MvcResult result = response.andReturn();
@@ -55,10 +55,10 @@ public class UserControllerTests {
 	@Test
 	void findOneTest() throws Exception{
 		
-		int id = 2;
+		int id = 1;
 		
 		ResultActions response = mockMvc.perform(
-				get("/usuarios/" + id)
+				get("/users/" + id)
 				.content("application/json"));
 		
 		MvcResult result = response.andReturn();
@@ -67,7 +67,6 @@ public class UserControllerTests {
 		UserDTO user = mapper.readValue(resultStr, UserDTO.class);
 		
 		assertThat(user.getId()).isEqualTo(id);		
-		
 	}
 	
 	@Test
@@ -75,11 +74,11 @@ public class UserControllerTests {
 		
 		UserDTO user = new UserDTO();
 		
-		user.setNome("Joao");
+		user.setName("Joao");
 		user.setEmail("jaozinho@digisystem.com");
 		
 		ResultActions response = mockMvc.perform(
-				post("/usuarios")
+				post("/users")
 				.contentType("application/json")
 				.content(mapper.writeValueAsString(user)));
 		
@@ -88,7 +87,7 @@ public class UserControllerTests {
 		UserDTO userSaved = mapper.readValue(resultStr, UserDTO.class);
 		
 		assertThat(userSaved.getId()).isPositive();
-		assertThat(userSaved.getNome()).isEqualTo(user.getNome());
+		assertThat(userSaved.getName()).isEqualTo(user.getName());
 		assertThat(userSaved.getEmail()).isEqualTo(user.getEmail());
 		assertThat(result.getResponse().getStatus()).isEqualTo(HttpStatus.OK.value());
 	}
@@ -96,15 +95,15 @@ public class UserControllerTests {
 	@Test
 	void updateTest() throws Exception{
 		
-		int id = 2;
+		int id = 1;
 		
 		UserDTO user = new UserDTO();
 		
-		user.setNome("JUnit Test");
+		user.setName("JUnit Test");
 		user.setEmail("junit@digisystem.com.br");
 		
 		ResultActions response = mockMvc.perform(
-				patch("/usuarios/"+ id)
+				patch("/users/"+ id)
 				.contentType("application/json")
 				.content(mapper.writeValueAsString(user)));
 		
@@ -114,7 +113,7 @@ public class UserControllerTests {
 		UserDTO modifiedUser = mapper.readValue(resultStr, UserDTO.class);
 		
 		assertThat(modifiedUser.getId()).isEqualTo(id);
-		assertThat(modifiedUser.getNome()).isEqualTo(user.getNome());
+		assertThat(modifiedUser.getName()).isEqualTo(user.getName());
 		assertThat(modifiedUser.getEmail()).isEqualTo(user.getEmail());
 		assertThat(result.getResponse().getStatus()).isEqualTo(HttpStatus.OK.value());
 	}
@@ -124,13 +123,13 @@ public class UserControllerTests {
 		
 		UserEntity user = new UserEntity();
 		
-		user.setNome("mock");
+		user.setName("mock");
 		user.setEmail("mock@digisystem.com");
 		
 		UserEntity userSaved = this.userRepository.save(user);
 		
 		ResultActions response = mockMvc.perform(
-				delete("/usuarios/"+ userSaved.getId())
+				delete("/users/"+ userSaved.getId())
 				.contentType("application/json"));
 		
 		MvcResult result = response.andReturn();
@@ -144,7 +143,7 @@ public class UserControllerTests {
 		String nome = "Erick";
 		
 		ResultActions response = mockMvc.perform(
-				get("/usuarios/get-by-nome/" + nome)
+				get("/users/get-by-name/" + nome)
 				.contentType("application/json"));
 		
 		MvcResult result = response.andReturn();

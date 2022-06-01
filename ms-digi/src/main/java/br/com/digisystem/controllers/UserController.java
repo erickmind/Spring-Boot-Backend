@@ -23,55 +23,55 @@ import br.com.digisystem.services.UserService;
 public class UserController {
 	
 	@Autowired
-	private UserService usuarioService;
+	private UserService userService;
 	
-	@GetMapping("usuarios")
+	@GetMapping("users")
 	public ResponseEntity<List<UserDTO>> getAll() {
 		
-		List<UserEntity> usuarioList = this.usuarioService.findAll();
-		List<UserDTO> dtoList = usuarioList.stream().map(x -> x.toDTO()).collect(Collectors.toList());
+		List<UserEntity> userList = this.userService.findAll();
+		List<UserDTO> dtoList = userList.stream().map(x -> x.toDTO()).collect(Collectors.toList());
 		
 		return ResponseEntity.ok().body(dtoList);
 	}
 	
-	@GetMapping("usuarios/{id}")
+	@GetMapping("users/{id}")
 	public ResponseEntity<UserDTO> get(@PathVariable int id) {
 		
-		return ResponseEntity.ok().body(usuarioService.findOne(id).toDTO());
+		return ResponseEntity.ok().body(userService.findOne(id).toDTO());
 	}
 	
-	@PostMapping("usuarios")
+	@PostMapping("users")
 	public ResponseEntity<UserDTO> create(@Valid @RequestBody UserDTO dto) {
 		
-		UserEntity usuario = dto.toEntity();
-		UserEntity usuarioResponse = this.usuarioService.create(usuario);
+		UserEntity user = dto.toEntity();
+		UserEntity userResponse = this.userService.create(user);
 		
-		return ResponseEntity.ok().body(usuarioResponse.toDTO());
+		return ResponseEntity.ok().body(userResponse.toDTO());
 	}
 	
-	@PatchMapping("usuarios/{id}")
+	@PatchMapping("users/{id}")
 	public ResponseEntity<UserDTO> update(@PathVariable int id, @RequestBody UserDTO dto) {
 		
-		UserEntity usuario = dto.toEntity();
-		UserEntity usuarioResponse = this.usuarioService.update(id, usuario);
+		UserEntity user = dto.toEntity();
+		UserEntity userResponse = this.userService.update(id, user);
 		
-		return ResponseEntity.ok().body(usuarioResponse.toDTO());
+		return ResponseEntity.ok().body(userResponse.toDTO());
 	}
 	
-	@DeleteMapping("usuarios/{id}")
+	@DeleteMapping("users/{id}")
 	public ResponseEntity<Void> delete(@PathVariable int id) {
 	
-		this.usuarioService.delete(id);
+		this.userService.delete(id);
 		
 		return ResponseEntity.ok().build();
 	}
 	
-	@GetMapping("usuarios/get-by-nome/{nome}")
-	public ResponseEntity<List<UserDTO>> getByNome(@PathVariable String nome){
+	@GetMapping("users/get-by-name/{name}")
+	public ResponseEntity<List<UserDTO>> getByName(@PathVariable String name){
 		
-		List<UserEntity> usuarioList = this.usuarioService.getByNome(nome);
-		List<UserDTO> usuarioListDTO = usuarioList.stream().map(x -> x.toDTO()).collect(Collectors.toList());
+		List<UserEntity> userList = this.userService.getByName(name);
+		List<UserDTO> userListDTO = userList.stream().map(x -> x.toDTO()).collect(Collectors.toList());
 		
-		return ResponseEntity.ok().body(usuarioListDTO);
+		return ResponseEntity.ok().body(userListDTO);
 	}
 }

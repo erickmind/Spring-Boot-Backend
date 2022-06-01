@@ -12,19 +12,19 @@ import br.com.digisystem.entities.UserEntity;
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Integer>{
 	
-	public List<UserEntity> findByNomeContains(String nome);
+	public List<UserEntity> findByNameContains(String name);
 	
-	public List<UserEntity> findByNomeStartsWith(String nome);
+	public List<UserEntity> findByNameStartsWith(String name);
 	
-	public List<UserEntity> findByNomeEndsWith(String nome);
+	public List<UserEntity> findByNameEndsWith(String name);
 	
-	public List<UserEntity> findByNomeContainsAndEmailContains(String nome, String email);
+	public List<UserEntity> findByNameContainsAndEmailContains(String name, String email);
 	
 	//JPQL (Java Persistence Query Language)
-	@Query("SELECT u FROM UserEntity u WHERE u.nome LIKE %:nome%")
-	public List<UserEntity> searchByNome(@Param("nome") String nome);
+	@Query("SELECT u FROM UserEntity u WHERE u.name LIKE %:name%")
+	public List<UserEntity> searchByName(@Param("name") String name);
 	
-	@Query(value = "SELECT * FROM usuarios u WHERE u.nome LIKE %:nome%",
+	@Query(value = "SELECT * FROM users u WHERE u.name LIKE %:name%",
 			nativeQuery = true)
-	public List<UserEntity> searchByNomeNativo(@Param("nome") String nome);
+	public List<UserEntity> searchByNameNativo(@Param("name") String name);
 }
