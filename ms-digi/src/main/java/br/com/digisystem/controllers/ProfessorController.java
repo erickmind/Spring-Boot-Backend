@@ -27,8 +27,7 @@ public class ProfessorController {
 	public ResponseEntity<List<ProfessorDTO>> findAll() {
 		
 		List<ProfessorEntity> profList = this.professorService.findAll();
-		List<ProfessorDTO> dtoList = profList.stream().map(
-				x -> x.toDTO()).collect(Collectors.toList());
+		List<ProfessorDTO> dtoList = profList.stream().map(ProfessorEntity::toDTO).collect(Collectors.toList());
 	
 		return ResponseEntity.ok().body(dtoList);
 	}

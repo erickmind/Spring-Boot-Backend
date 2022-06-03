@@ -3,6 +3,8 @@ package br.com.digisystem.services;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -60,5 +62,10 @@ public class UserService {
 	
 	public List<UserEntity> getByName(String name){
 		return this.userRepository.searchByName(name);
+	}
+	
+	@Transactional
+	public void updateUser(int id, String nome) {
+		this.userRepository.updateUser(id, nome);
 	}
 }

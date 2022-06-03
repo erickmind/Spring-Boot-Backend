@@ -1,10 +1,14 @@
 package br.com.digisystem.services;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,7 +27,7 @@ import br.com.digisystem.repositories.UserRepository;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class UserServiceTests {
+class UserServiceTests {
 	
 	@Autowired
 	private UserService userService;
@@ -32,7 +36,7 @@ public class UserServiceTests {
 	private UserRepository userRepository;
 	
 	@Test
-	void findAllTest() throws Exception{
+	void findAllTest(){
 		
 		List<UserEntity> simulationList = new ArrayList<>();
 		UserEntity user = new UserEntity();
@@ -51,7 +55,7 @@ public class UserServiceTests {
 	}	
 	
 	@Test
-	void findOneTestWhenIsFound() throws Exception{
+	void findOneTestWhenFound(){
 		
 		int id = 2;
 		
@@ -71,7 +75,7 @@ public class UserServiceTests {
 	}
 	
 	@Test
-	void findOneWhenNotFound() throws Exception{
+	void findOneWhenNotFound(){
 		
 		int id = 2;
 		
@@ -81,7 +85,7 @@ public class UserServiceTests {
 	}
 	
 	@Test
-	void createTest() throws Exception{
+	void createTest(){
 		
 		int id = 1;
 		
@@ -103,19 +107,73 @@ public class UserServiceTests {
 		assertThat(savedUser.getId()).isPositive();
 	}
 	
-//	@Test
-//	void updateTestWhenFound() throws Exception{
-//		
-//		int id = 2;
-//		
-//		
-//	}
+	@Test
+	void updateTestWhenFound(){
+		
+		int id = 1;
+		
+		UserEntity validUser = this.createValidUser(true);
+		
+		when( userRepository.findById(id)).thenReturn(Optional.of(validUser));
+		when( userRepository.save(validUser)).thenReturn(validUser);
+		
+		UserEntity modifiedUser = userService.update(id, validUser);
+		
+		assertThat(modifiedUser.getName()).isEqualTo(validUser.getName());
+		assertThat(modifiedUser.getEmail()).isEqualTo(validUser.getEmail());
+	}
 	
-//	@Test
-//	void updateTestWhenNotFound() throws Exception{
-//		
-//		int id = 2;
-//		
-//		
-//	}
+	@Test
+	void updateTestWhenNotFound(){
+		
+		when( userRepository.findById(1)).thenReturn(Optional.empty());
+		
+		UserEntity modifiedUser = userService.update(1, null);
+		
+		assertThat(modifiedUser).isNull();
+	}
+	
+	@Test
+	void deleteTest(){
+		
+		assertDoesNotThrow(() -> userService.delete(1));
+		
+		// Verify if delete was called only once
+		verify(userRepository, times(1)).deleteById(1);
+	}
+	
+	@Test
+	void getByNomeTest(){
+		
+		UserEntity validUser = this.createValidUser(true);
+		
+		List<UserEntity> list = Arrays.asList(validUser, validUser);
+		
+		when(userRepository.searchByNameNativo("name")).thenReturn(list);
+		
+		assertThat(list).isNotEmpty();
+		assertDoesNotThrow(() -> userRepository.searchByNameNativo("nome"));
+	}
+	
+	@Test
+	void updateUserTest(){	
+		assertDoesNotThrow( () -> userService.updateUser(1, "name"));
+		verify( userRepository, times(1)).updateUser(1, "name");
+	}
+	
+	private UserEntity createValidUser(boolean isId) {
+		
+		int id = 1;
+		
+		UserEntity user = new UserEntity();
+		
+		user.setEmail("email@email.com");
+		user.setName("Test name");
+		
+		if(isId == true) {
+			user.setId(id);
+		}
+		
+		return user;
+	}
 }

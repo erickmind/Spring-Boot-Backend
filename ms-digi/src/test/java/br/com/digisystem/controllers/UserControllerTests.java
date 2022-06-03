@@ -26,7 +26,7 @@ import br.com.digisystem.repositories.UserRepository;
 @ExtendWith(SpringExtension.class)
 @AutoConfigureMockMvc
 @SpringBootTest
-public class UserControllerTests {
+class UserControllerTests {
 	
 	@Autowired
 	private MockMvc mockMvc;

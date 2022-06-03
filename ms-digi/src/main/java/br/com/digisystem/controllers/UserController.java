@@ -29,7 +29,7 @@ public class UserController {
 	public ResponseEntity<List<UserDTO>> getAll() {
 		
 		List<UserEntity> userList = this.userService.findAll();
-		List<UserDTO> dtoList = userList.stream().map(x -> x.toDTO()).collect(Collectors.toList());
+		List<UserDTO> dtoList = userList.stream().map(UserEntity::toDTO).collect(Collectors.toList());
 		
 		return ResponseEntity.ok().body(dtoList);
 	}
@@ -70,8 +70,16 @@ public class UserController {
 	public ResponseEntity<List<UserDTO>> getByName(@PathVariable String name){
 		
 		List<UserEntity> userList = this.userService.getByName(name);
-		List<UserDTO> userListDTO = userList.stream().map(x -> x.toDTO()).collect(Collectors.toList());
+		List<UserDTO> userListDTO = userList.stream().map(UserEntity::toDTO).collect(Collectors.toList());
 		
 		return ResponseEntity.ok().body(userListDTO);
 	}
+	
+	@PatchMapping("users/update/{id}")
+	public ResponseEntity<Void> updateUser(@PathVariable int id, @RequestBody UserDTO dto){
+		
+		this.userService.updateUser(id, dto.getName());
+		
+		return ResponseEntity.ok().build();
+	}	
 }

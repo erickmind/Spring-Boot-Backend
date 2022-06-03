@@ -7,7 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
-public class CalculatorUtilTests {
+class CalculatorUtilTests {
 	
 	private CalculatorUtil calculatorUtil = new CalculatorUtil();
 	
