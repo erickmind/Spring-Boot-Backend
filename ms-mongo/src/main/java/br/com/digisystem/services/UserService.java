@@ -58,12 +58,7 @@ public class UserService {
 		this.userRepository.deleteById(id);
 	}
 	
-//	public List<UserEntity> getByName(String name){
-//		return this.userRepository.searchByName(name);
-//	}
-//	
-//	@Transactional
-//	public void updateUser(int id, String nome) {
-//		this.userRepository.updateUser(id, nome);
-//	}
+	public List<UserEntity> getByName(String name){
+		return this.userRepository.searchByNameNative(name);
+	}
 }
