@@ -36,9 +36,9 @@ public class SwaggerConfig extends WebMvcConfigurationSupport{
 				+ "<br>All documentation can be found at [Github](https://github.com/erickmind/Spring-Boot-Backend)")
 				.version("v1")
 				.termsOfServiceUrl(
-						"https://github.com/erickmind/Spring-Boot-Backend/")
+						"https://github.com/erickmind/Spring-Boot-Backend")
 				.contact(new Contact("Source code",
-						"https://github.com/erickmind/Spring-Boot-Backend/tree/main/ms-mongo", null))
+						"https://github.com/erickmind/Spring-Boot-Backend/tree/main/ms-digi", null))
 				.build();
 	}
 
