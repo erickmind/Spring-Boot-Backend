@@ -2,19 +2,29 @@ package br.com.digisystem.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import br.com.digisystem.dtos.UserDTO;
 import br.com.digisystem.entities.UserEntity;
 import br.com.digisystem.exceptions.ObjNotFoundException;
+import br.com.digisystem.repositories.CustomRepository;
 import br.com.digisystem.repositories.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Slf4j
 public class UserService {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private CustomRepository customRepository;
 	
 	public List<UserEntity> findAll() {
 		
@@ -55,10 +65,34 @@ public class UserService {
 	}
 	
 	public void delete(String id) {
-		this.userRepository.deleteById(id);
+		try {
+			this.userRepository.deleteById(id);
+		} catch (Exception e){
+			log.error("Deleting error for User with ID: " + id + ". Error " + e.getMessage() );
+		}
 	}
 	
 	public List<UserEntity> getByName(String name){
-		return this.userRepository.searchByNameNative(name);
+		return this.userRepository.searchByName(name);
+	}
+	
+	public UserEntity updateUser(String id, String name) {
+		return this.customRepository.updateUser(id, name);
+	}
+	
+	public Page<UserDTO> findAllPagination(int page, int limit){
+		PageRequest pageReq = PageRequest.of(page, limit);
+		
+		Page<UserEntity> userPage = userRepository.findAll( pageReq );
+		
+		Page<UserDTO> dtoPage = userPage.map(
+				new Function<UserEntity, UserDTO> (){
+					public UserDTO apply(UserEntity entity) {
+						return entity.toDTO();
+					} 
+				}
+			);
+		
+		return dtoPage;
 	}
 }

@@ -26,7 +26,7 @@
 			src/main/java/**/dtos/**, 
 			src/main/java/**/entities/**,
 			src/main/java/**/exceptions/**,
-			src/main/java/br/com/digisystem/MsDigiApplicationTests.java
+			src/main/java/br/com/digisystem/MsDigiApplicationTests.java,
 			src/main/java/br/com/digisystem/MsDigiApplication.java
 		</sonar.exclusions>
 		
